@@ -1,0 +1,43 @@
+﻿@model IEnumerable<OnlineTicketing.Models.OrderDetails>
+
+@{
+    ViewData["Title"] = "UserOrder";
+}
+
+<h1>UserOrder</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                User Id
+            </th>
+            <th>
+                User Name
+            </th>
+            <th>
+                Booked Date
+            </th>
+            <th>
+                Movie
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+               @Html.DisplayFor(modelItem => item.Order.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.OrderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Movie.Name)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

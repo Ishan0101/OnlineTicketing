@@ -1,0 +1,77 @@
+﻿@model IEnumerable<OnlineTicketing.Models.Category>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h4>Category List</h4>
+
+<p style="text-align:right">
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Delete Category</h3>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to delete the category ?</h4>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-outline-primary" data-dismiss="modal">Cancel</a>
+                <a href="#" class="btn btn-outline-danger" onclick="DeleteCategory()">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.CategoryId" class="btn btn-outline-primary">Edit</a> |
+                    <a href="#" class="btn btn-outline-danger" onclick="ConfirmDelete(@item.CategoryId)">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<input type="hidden" id="hiddenCategoryId" />
+
+<script>
+    var ConfirmDelete = function (CategoryId) {
+        $('#hiddenCategoryId').val(CategoryId);
+        $('#myModal').modal('show');
+    };
+    var DeleteCategory = function () {
+        var CatId = $('#hiddenCategoryId').val();
+        $.ajax({
+                type: 'GET',
+                url: "/Category/Delete/",
+                data: { CategoryId: CatId },
+                dataType: 'json',
+                success: function () {
+                    alert("Data has been deleted successfully.");
+                    $('#myModal').modal('hide');
+                    location.reload(true);
+                },
+                error: function () {
+                    alert("Error in deleting data");
+                    $('#myModal').modal('hide');
+                },
+        })
+    };
+</script>
